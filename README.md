@@ -1,6 +1,6 @@
-# WaitWise AI - Virtual Queue Management & Customer Journey System
+# QEase AI - Virtual Queue Management & Customer Journey System
 
-**WaitWise AI** is a production-grade, multi-tenant Virtual Queue Management and Customer Journey Application designed to eliminate physical waiting in walk-in establishments such as banks, urgent care clinics, telecom centers, and government offices.
+**QEase AI** is a production-grade, multi-tenant Virtual Queue Management and Customer Journey Application designed to eliminate physical waiting in walk-in establishments such as banks, urgent care clinics, telecom centers, and government offices.
 
 ---
 
