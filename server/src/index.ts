@@ -59,11 +59,15 @@ app.get('/api/v1/admin/analytics', authenticateStaff, getAnalytics);
 app.get('/api/v1/public/tokens/:tenantSlug/:tokenId', publicApiRateLimiter, getPublicTokenStatus);
 app.post('/api/v1/public/tokens/ask-ai', askAiRateLimiter, askAiAssistant);
 
-// Start Server
-server.listen(PORT, () => {
-  console.log(`=======================================================`);
-  console.log(`🚀 WaitWise AI Backend running on http://localhost:${PORT}`);
-  console.log(`⚡ WebSocket Server online (Socket.io room broadcasting)`);
-  console.log(`🤖 Gemini AI Engine: gemini-2.5-flash active`);
-  console.log(`=======================================================`);
-});
+export default app;
+export { app, server };
+
+if (!process.env.VERCEL) {
+  server.listen(PORT, () => {
+    console.log(`=======================================================`);
+    console.log(`🚀 QEase AI Backend running on http://localhost:${PORT}`);
+    console.log(`⚡ WebSocket Server online (Socket.io room broadcasting)`);
+    console.log(`🤖 Gemini AI Engine active`);
+    console.log(`=======================================================`);
+  });
+}
