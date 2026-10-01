@@ -70,7 +70,7 @@ cd client
 npm install
 npm run dev
 ```
-*Frontend starts on `http://localhost:5173`*
+*Frontend starts on `http://localhost:8080`*
 
 ---
 
