@@ -1,0 +1,42 @@
+# ============================================================
+#  WaitWise AI — .gitignore
+#  NEVER commit real secrets or generated build artifacts.
+# ============================================================
+
+# ── Environment / Secrets ───────────────────────────────────
+.env
+.env.local
+.env.*.local
+# DO commit .env.example (it contains only safe placeholders)
+!.env.example
+
+# ── Node Modules ─────────────────────────────────────────────
+node_modules/
+client/node_modules/
+server/node_modules/
+
+# ── Build Outputs ────────────────────────────────────────────
+dist/
+server/dist/
+client/dist/
+build/
+
+# ── Logs ─────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# ── OS & Editor Files ────────────────────────────────────────
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+
+# ── TypeScript Cache ─────────────────────────────────────────
+*.tsbuildinfo
