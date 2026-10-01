@@ -4,7 +4,8 @@
   "private": true,
   "description": "QEase AI — Smart Real-Time Queue Management & AI Assistant",
   "scripts": {
-    "build": "cd client && npm run build",
-    "vercel-build": "cd client && npm run build"
+    "install-all": "cd client && npm install && cd ../server && npm install",
+    "build": "cd client && npm install && npm run build",
+    "vercel-build": "cd client && npm install && npm run build"
   }
 }
