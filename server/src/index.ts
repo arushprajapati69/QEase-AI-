@@ -25,39 +25,48 @@ const app = express();
 const server = http.createServer(app);
 
 const PORT = process.env.PORT || 5000;
-const CORS_ORIGIN = process.env.CORS_ORIGIN || 'http://localhost:5173';
+const CORS_ORIGIN = process.env.CORS_ORIGIN || '*';
 
 // Initialize Socket.io
 initSocket(server, CORS_ORIGIN);
 
 // Middlewares
 app.use(helmet({ contentSecurityPolicy: false }));
-app.use(cors({ origin: CORS_ORIGIN, credentials: true }));
+app.use(cors({ origin: true, credentials: true }));
 app.use(express.json());
 
+// Create API Router for flexible path matching across Vercel serverless rewrites
+const router = express.Router();
+
 // Health Check
-app.get('/health', (req, res) => {
-  res.json({ status: 'ok', service: 'WaitWise AI Server', timestamp: new Date().toISOString() });
+router.get('/health', (req, res) => {
+  res.json({ status: 'ok', service: 'QEase AI Server', timestamp: new Date().toISOString() });
 });
 
 // Authentication Routes
-app.post('/api/v1/auth/login', login);
-app.get('/api/v1/auth/me', authenticateStaff, getCurrentUser);
+router.post('/auth/login', login);
+router.get('/auth/me', authenticateStaff, getCurrentUser);
 
 // Kiosk Routes
-app.get('/api/v1/kiosk/:tenantSlug/data', getKioskData);
-app.post('/api/v1/kiosk/tokens', issueToken);
+router.get('/kiosk/:tenantSlug/data', getKioskData);
+router.post('/kiosk/tokens', issueToken);
 
 // Business Dashboard Staff Routes (Auth Protected)
-app.get('/api/v1/admin/queue', authenticateStaff, getLiveQueue);
-app.post('/api/v1/admin/queue/next', authenticateStaff, advanceQueueNext);
-app.patch('/api/v1/admin/counters/status', authenticateStaff, toggleCounterStatus);
-app.post('/api/v1/admin/tokens/action', authenticateStaff, handleTokenAction);
-app.get('/api/v1/admin/analytics', authenticateStaff, getAnalytics);
+router.get('/admin/queue', authenticateStaff, getLiveQueue);
+router.post('/admin/queue/next', authenticateStaff, advanceQueueNext);
+router.patch('/admin/counters/status', authenticateStaff, toggleCounterStatus);
+router.post('/admin/tokens/action', authenticateStaff, handleTokenAction);
+router.get('/admin/analytics', authenticateStaff, getAnalytics);
 
 // Customer Public Portal Routes
-app.get('/api/v1/public/tokens/:tenantSlug/:tokenId', publicApiRateLimiter, getPublicTokenStatus);
-app.post('/api/v1/public/tokens/ask-ai', askAiRateLimiter, askAiAssistant);
+router.get('/public/tokens/:tenantSlug/:tokenId', publicApiRateLimiter, getPublicTokenStatus);
+router.post('/public/tokens/ask-ai', askAiRateLimiter, askAiAssistant);
+
+// Mount router on all path prefix variants to guarantee routing success on Vercel
+app.use('/api/v1', router);
+app.use('/v1', router);
+app.use('/api', router);
+app.use('/', router);
 
 export default app;
 export { app, server };

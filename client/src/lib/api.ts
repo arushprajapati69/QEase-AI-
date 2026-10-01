@@ -16,6 +16,12 @@ export async function fetchJson(endpoint: string, options?: RequestInit) {
     headers,
   });
 
+  const contentType = response.headers.get('content-type');
+  if (!contentType || !contentType.includes('application/json')) {
+    const text = await response.text();
+    throw new Error(`API returned non-JSON response (${response.status}): ${text.slice(0, 120)}`);
+  }
+
   const data = await response.json();
   if (!response.ok) {
     throw new Error(data.message || 'API request failed.');
